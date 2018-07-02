@@ -198,4 +198,134 @@ Trie
 
 - Trie (prefix tree)
 
+## 5. Word Search
+
+### Description
+
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+### Example
+
+Given board =
+```
+[
+  "ABCE",
+  "SFCS",
+  "ADEE"
+]
+
+word = "ABCCED", -> returns true,
+word = "SEE", -> returns true,
+word = "ABCB", -> returns false.
+```
+
+### Solution
+
+- Traverse board from left to right, top to bottom. 
+- Whenever reaches to a character that is equals to the first char in the word, performce a full DFS via that node
+- Could leverage the same board as visited board and rembember to recover the board once a DFS is finished.
+- [code](https://github.com/childxr/lintleetcode/blob/master/WordSearch/solution.py)
+
+
+### TAG
+
+- DFS
+
+
+
+## 6. Word Search II
+
+### Description
+
+Given a matrix of lower alphabets and a dictionary. Find all words in the dictionary that can be found in the matrix. A word can start from any position in the matrix and go left/right/up/down to the adjacent position. One character only be used once in one word.
+
+### Example
+
+Given matrix:
+```
+doaf
+agai
+dcan
+
+and dictionary:
+
+{"dog", "dad", "dgdg", "can", "again"}
+
+return {"dog", "dad", "can", "again"}
+```
+
+**dog**:
+
+`do`af
+
+a`g`ai
+
+dcan
+
+**dad**:
+
+`d`oaf
+
+`a`gai
+
+`d`can
+
+**can**:
+
+doaf
+
+agai
+
+d`can`
+
+**again**:
+
+doaf
+
+`agai`
+
+dca`n`
+
+
+### Solution
+
+- Build a trie based on dic
+```
+- TrieNode
+  - word
+  - children
+
+- Trie
+  - root
+  - add_word(w)
+```
+- Traverse board from left to right, top to bottom, tried to perform word search on each character, prune accordingly
+  - current character not in word prefix path
+
+- Output a record if found a word in prefix path, else for 4 direction of current character, continue searching
+- Could leverage board itself to mark visited, remember to recover once a depth path search is done
+- [code](https://github.com/childxr/lintleetcode/blob/master/WordSearchII/solution.py)
+
+
+```
+set1 = set([])
+set2 = set([])
+set1.add(1)
+set2.add(2)
+set3 = set1 | set 2 # union
+set4 = set3 & set2 # intersect
+set2.isdisjoint(set3) # False
+set2.isdisjoint(set1) # True
+set1 < set3 # set1 is subset of set3
+set1.remove(1)
+```
+
+### TAG
+
+- DFS
+- Trie
+- Set
+
 
