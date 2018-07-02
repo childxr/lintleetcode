@@ -94,3 +94,108 @@ q1 = Queue.PriorityQueue() # priority Queue
 ```
 
 
+## 3. Connected Graph
+
+### Description
+
+Given n nodes in a graph labeled from 1 to n. There is no edges in the graph at beginning.
+
+You need to support the following method:
+
+**connect(a, b)**, add an edge to connect node a and node b`.
+
+**query(a, b)**, check if two nodes are connected
+
+### Example
+
+5 // n = 5
+
+`query(1, 2)` return false
+
+`connect(1, 2)`
+
+`query(1, 3)` return false
+
+`connect(2, 4)`
+
+`query(1, 4)` return true
+
+### Solution
+
+- Use **UnionFind** data structure to back up the operation
+- In **UnionFind** data structure, it uses 1, 2, .., n as index to each node in the set. There is an array to represent parent of each node, means Id[1] is the parent of node 1. Whenver we have id[i] == [i], we found a root.
+- To perform **query** between **a and b**, just need to find if `root(a) and root(b) has the same result`.
+- To perform **connect**, just `make one of the node point to the other`. To have better performance, `usually use a size array to keep track of the size for a set rooted at node i`, initialized as 1, and then point the smaller size tree to a bigger size tree.
+- To make **root** operation faster, in the path of searching root, do path shorten operation by pointing to grand parent of i whenenver possible.
+- [code](https://github.com/childxr/lintleetcode/blob/master/ConnectingGraph/solution.py)
+
+### TAG
+
+- Union Find
+
+Suppose M is the total operation performed, N is the number of nodes, the complexity is
+
+| Algorithm        | Worst Time           |
+| ------------- |:-------------:|
+| Weighted QU      | N + M log N |
+| Path compression      | N + M log N      |
+| Weighted + path | (M + N) lg* N    |
+
+For quick-union or quick-find, complexity is M*N
+
+[link](https://www.cs.princeton.edu/~rs/AlgsDS07/01UnionFind.pdf)
+
+
+## 4. Add and Search Word - Data structure design
+
+### Description
+
+Design a data structure that supports the following two operations: `addWord(word) and search(word)`
+
+search(word) can search a **literal word** or a **regular expression** string containing only letters a-z or `.`.
+
+A `.` means it can represent any one letter.
+
+You may assume that all words are consist of `lowercase letters a-z`.
+
+### Example
+
+addWord("bad")
+
+addWord("dad")
+
+addWord("mad")
+
+search("pad")  // return false
+
+search("bad")  // return true
+
+search(".ad")  // return true
+
+search("b..")  // return true
+
+### Solution
+
+```
+TrieNode
+ - is_word
+ - children[26]
+
+Trie
+ - root: TrieNode
+ - addWord(w)
+ - searchWord(w)
+
+
+- ord('a') = 97
+- chr(97) = 'a'
+```
+
+- [code](https://github.com/childxr/lintleetcode/blob/master/AddAndSearchWord/solution.py)
+- [Implement a Trie](https://github.com/childxr/lintleetcode/blob/master/ImplementTrie/solution.py)
+
+### TAG
+
+- Trie (prefix tree)
+
+
