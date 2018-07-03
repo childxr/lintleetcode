@@ -725,3 +725,66 @@ public static void sort(Comparable[] pq) {
 ```
 
 
+## 12. Trap Rain in Water
+
+### Description
+
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+Trapping Rain Water
+
+### Example
+
+Given `[0,1,0,2,1,0,1,3,2,1,2,1]`, return 6.
+
+#### Challenge
+
+O(n) time and O(1) memory
+
+O(n) time and O(n) memory is also acceptable.
+
+### Solution
+
+- Just think of each bar is a bin
+- How much water to trap depends on the left and right edge of the bin
+- example is [2, 1, 3], water to be trap in 1 (as bottom), it is (min(2, 3) - 1)
+- Just initialize 2 arrays and compute @ each bar, the highest to the left in one array and highest to the right for the other array
+- use equation in the example to get the total output
+
+
+## 13. Trap Rain in Water II
+
+
+### Description
+
+Given n x m non-negative integers representing an elevation map 2d where the area of each cell is 1 x 1, compute how much water it is able to trap after raining.
+
+### Example
+
+Given 5*4 matrix
+
+`[12,13,0,12]`
+
+`[13,4,13,12]`
+
+`[13,8,10,12]`
+
+`[12,13,12,12]`
+
+`[13,13,13,13]`
+
+return 14.
+
+### Solution
+
+- This is s 3D problem and the problem we need to solve is **how to keep track of the real edge for each bin**
+- Considering any bin height could contribute to the edge of other bins, we should start from the smallest bin height from the outter area. Smallest outter bin height could never trap water but it is likely help other bins in inner area to trap water if inner bin has smaller height
+- Starting from the smallest outter bin, do scanning through 4 directions. For those unvisited bins, compute if any water could be trapped. If so, add up the amount of water that is trapped. Mark this unvisited bin as visited, and put it into the min Heap.
+
+
+### TAG
+
+- BFS with a Priority Queue
+- Heap
+
+
