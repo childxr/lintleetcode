@@ -366,3 +366,362 @@ UnionFind
 - UnionFind
 
 
+## 8. Sliding Window Maximum
+
+### Description
+
+Given an array of n integer with duplicate number, and a moving window(size k), move the window at each iteration from the start of the array, find the maximum number inside the window at each moving.
+
+### Example
+
+For array [1, 2, 7, 7, 8], moving window size k = 3. return [7, 7, 8]
+
+At first the window is at the start of the array like this
+
+[|1, 2, 7| ,7, 8] , return the maximum 7;
+
+then the window move one step forward.
+
+[1, |2, 7 ,7|, 8], return the maximum 7;
+
+then the window move one step forward again.
+
+[1, 2, |7, 7, 8|], return the maximum 8;
+
+### Challenge
+o(n) time and O(k) memory
+
+### Solution
+
+- Leverage deque [double ended queue/ Queue + Stack / Deck]
+- The problem to solve is a `window high` value and how to `keep track of the validity of window high value`
+- invariants to maintain
+  - (1) Elements in deck are in non-descendant order
+  - (2) Element in deck are present in current window
+- Inorder to keep (1), each time for scaning an element in the array, need to compare it to the peek of the deck, remove peek elem if invariant is broken before adding the new high elem into deck
+- Inoder to compute the second requirement for the invariant, make the value of deck element to be the index number of the given array
+- [code](https://github.com/childxr/lintleetcode/blob/master/SlidingWindowMaximum/solution.py)
+
+```
+from collections import deque
+dq = deque()
+```
+Deque Method
+
+**append(x)**
+- Add x to the right side of the deque.
+
+**appendleft(x)**
+- Add x to the left side of the deque.
+
+**clear()**
+- Remove all elements from the deque leaving it with length 0.
+
+**count(x)**
+- Count the number of deque elements equal to x.
+
+**extend(iterable)**
+- Extend the right side of the deque by appending elements from the iterable argument.
+
+**extendleft(iterable)**
+- Extend the left side of the deque by appending elements from iterable. Note, the series of left appends results in reversing the order of elements in the iterable argument.
+
+**pop()**
+- Remove and return an element from the right side of the deque. If no elements are present, raises an IndexError.
+
+**popleft()**
+- Remove and return an element from the left side of the deque. If no elements are present, raises an IndexError.
+
+**remove(value)**
+- Remove the first occurrence of value. If not found, raises a ValueError.
+
+**reverse()**
+- Reverse the elements of the deque in-place and then return None.
+
+**rotate(n=1)**
+- Rotate the deque n steps to the right. If n is negative, rotate to the left.
+
+
+## 8. Sliding Window Maximum
+
+### Description
+
+Given an array of n integer with duplicate number, and a moving window(size k), move the window at each iteration from the start of the array, find the maximum number inside the window at each moving.
+
+### Example
+
+For array [1, 2, 7, 7, 8], moving window size k = 3. return [7, 7, 8]
+
+At first the window is at the start of the array like this
+
+[|1, 2, 7| ,7, 8] , return the maximum 7;
+
+then the window move one step forward.
+
+[1, |2, 7 ,7|, 8], return the maximum 7;
+
+then the window move one step forward again.
+
+[1, 2, |7, 7, 8|], return the maximum 8;
+
+### Challenge
+o(n) time and O(k) memory
+
+### Solution
+
+- Leverage deque [double ended queue/ Queue + Stack / Deck]
+- The problem to solve is a `window high` value and how to `keep track of the validity of window high value`
+- invariants to maintain
+  - (1) Elements in deck are in non-descendant order
+  - (2) Element in deck are present in current window
+- Inorder to keep (1), each time for scaning an element in the array, need to compare it to the peek of the deck, remove peek elem if invariant is broken before adding the new high elem into deck
+- Inoder to compute the second requirement for the invariant, make the value of deck element to be the index number of the given array
+- [code](https://github.com/childxr/lintleetcode/blob/master/SlidingWindowMaximum/solution.py)
+
+```
+from collections import deque
+dq = deque()
+```
+Deque Method
+
+**append(x)**
+- Add x to the right side of the deque.
+
+**appendleft(x)**
+- Add x to the left side of the deque.
+
+**clear()**
+- Remove all elements from the deque leaving it with length 0.
+
+**count(x)**
+- Count the number of deque elements equal to x.
+
+**extend(iterable)**
+- Extend the right side of the deque by appending elements from the iterable argument.
+
+**extendleft(iterable)**
+- Extend the left side of the deque by appending elements from iterable. Note, the series of left appends results in reversing the order of elements in the iterable argument.
+
+**pop()**
+- Remove and return an element from the right side of the deque. If no elements are present, raises an IndexError.
+
+**popleft()**
+- Remove and return an element from the left side of the deque. If no elements are present, raises an IndexError.
+
+**remove(value)**
+- Remove the first occurrence of value. If not found, raises a ValueError.
+
+**reverse()**
+- Reverse the elements of the deque in-place and then return None.
+
+**rotate(n=1)**
+- Rotate the deque n steps to the right. If n is negative, rotate to the left.
+
+
+
+## 9. Sliding Windlow Medium
+
+### Description
+
+Given an array of n integer, and a moving window(size k), move the window at each iteration from the start of the array, find the median of the element inside the window at each moving. (If there are even numbers in the array, return the N/2-th number after sorting the element in the window. )
+
+### Example
+
+For array [1,2,7,8,5], moving window size k = 3. return [2,7,7]
+
+At first the window is at the start of the array like this
+
+[ | 1,2,7 | ,8,5] , return the median 2;
+
+then the window move one step forward.
+
+[1, | 2,7,8 | ,5], return the median 7;
+
+then the window move one step forward again.
+
+[1,2, | 7,8,5 | ], return the median 7;
+
+### Challenge
+
+O(nlog(n)) time
+
+### Solution
+
+- Defined a data structure which contains a minHeap and maxHeap
+- **minHeap** is to keep the second half of elements
+- **maxHeap** is to keep the first half of elements
+- **getMedium**: compute current medium 
+
+```
+MediumHeap
+ - minHeap
+ - maxHeap
+ - add(a) : add a into medium heap
+ - remove(a): remove a from medium heap
+
+```
+- invariant for any operation is: `|size(minHeap) - size(maxHeap)| <= 1`
+- initialize a medium heap (**mh**)
+- for i in [0: k-1), add num[i] to mh
+- for i in [k-1, n), output medium, add i, remove i-k+1
+
+```
+import heapq
+class minHeap:
+  def __init__(self):
+    self.h = []
+  
+  def heappush(self, item):
+    heapq.heappush(self.h, item)
+    
+  def heappop(self):
+    return heapq.heappop(self.h)
+  
+  def remove(self, item):
+    self.h.remove(item)
+    heapq.heapify(self.h)
+  
+  def empty(self):
+    return len(self.h) == 0
+  
+  def size(self):
+    return len(self.h)
+
+class maxObject:
+  def __init__(self, item):
+    self.item = item
+    
+  def __eq__(self, other):
+    return self.item == other.item
+    
+  def __lt__(self, other):
+    return self.item > other.item
+  
+  def __str__(self):
+    return str(self.item)
+
+class maxHeap:
+  def __init__(self):
+    self.h = []
+  
+  def heappush(self, item):
+    heapq.heappush(self.h, maxObject(item))
+  
+  def heappop(self):
+    return str(heapq.heappop(self.h))
+    
+  def remove(self, item):
+    self.h.remove(maxObject(item))
+    heapq.heapify(self.h)
+  
+  def empty(self):
+    return len(self.h) == 0
+    
+  def size(self):
+    return len(self.h)
+
+```
+
+### TAG
+
+- Heap
+
+
+
+## 10. Find Medium form Data Stream
+
+### Description
+
+Numbers keep coming, return the median of numbers at every time a new number added.
+
+#### Clarification
+What's the definition of Median?
+
+Median is the number that in the middle of a sorted array. If there are n numbers in a sorted array A, the median is A[(n - 1) / 2]. For example, if A=[1,2,3], median is 2. If A=[1,19], median is 1.
+
+### Example
+
+For numbers coming list: [1, 2, 3, 4, 5], return [1, 1, 2, 2, 3].
+
+For numbers coming list: [4, 5, 1, 3, 2, 6, 0], return [4, 4, 4, 3, 3, 3, 3].
+
+For numbers coming list: [2, 20, 100], return [2, 2, 20].
+
+#### Challenge
+Total run time in O(nlogn).
+
+### Solution
+
+- see Sliding Windlow Medium
+
+### TAG
+
+- Heap
+
+
+
+## 11. Heapify
+
+### Description
+
+Given an integer array, heapify it into a min-heap array.
+
+For a heap array A, A[0] is the root of heap, and for each A[i], A[i * 2 + 1] is the left child of A[i] and A[i * 2 + 2] is the right child of A[i].
+
+### Clarification
+What is heap?
+
+Heap is a data structure, which usually have three methods: push, pop and top. where "push" add a new element the heap, "pop" delete the minimum/maximum element in the heap, "top" return the minimum/maximum element.
+
+What is heapify?
+
+Convert an unordered integer array into a heap array. If it is min-heap, for each element A[i], we will get A[i * 2 + 1] >= A[i] and A[i * 2 + 2] >= A[i].
+
+What if there is a lot of solutions?
+Return any of them.
+
+### Example
+
+Given [3,2,1,4,5], return [1,2,3,4,5] or any legal heap array.
+
+#### Challenge
+O(n) time complexity
+
+### Solution
+
+- [slide](https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pdf/DemoHeapify.pdf)
+- [priority queue](https://algs4.cs.princeton.edu/24pq/)
+- Algorithms on heaps. We represent a heap of size n in private array pq[] of length n + 1, with pq[0] unused and the heap in pq[1] through pq[n]. 
+- We access keys only through private helper functions less() and exch(). The heap operations that we consider work by first making a simple modification that could violate the heap condition, then traveling through the heap, modifying the heap as required to ensure that the heap condition is satisfied everywhere. We refer to this process as reheapifying, or restoring heap order.
+
+```
+private void swim(int k) {
+   while (k > 1 && less(k/2, k)) {
+      exch(k, k/2);
+      k = k/2;
+   }
+}
+
+private void sink(int k) {
+   while (2*k <= N) {
+      int j = 2*k;
+      if (j < N && less(j, j+1)) j++;
+      if (!less(k, j)) break;
+      exch(k, j);
+      k = j;
+   }
+}
+
+public static void sort(Comparable[] pq) {
+	int n = pq.length;
+    for (int k = n/2; k >= 1; k--)
+        sink(pq, k, n);
+    while (n > 1) {
+        exch(pq, 1, n--);
+        sink(pq, 1, n);
+    }
+}
+
+```
+
+
