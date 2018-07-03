@@ -365,4 +365,107 @@ Solve it in O(k log n) time where n is the bigger one between row size and colum
 - Guess in the sample area (like sqrt)
 - Fast count by binary search
 
+## 11. Longest Substring Without Repeating Characters
+
+### Description
+
+Given a string, find the length of the longest substring without repeating characters.
+
+### Example
+
+For example, the longest substring without repeating letters for "abcabcbb" is "abc", which the length is 3.
+
+For "bbbbb" the longest substring is "b", with the length of 1.
+
+#### Challenge
+O(n) time
+
+### Solution
+
+- We may need two pointers, where left pointer is pointing to one elem before the start window, right a running window
+- Use a map to count the appearance of each character
+- If a violation deteced, right pointer is pointing to the a character that appear twice, compute a window size by (right-1-left)
+- while loop to move left window to exclude the character that appear twice, stop left in that character
+- repeat until right reaches to the end
+- [code](https://github.com/childxr/lintleetcode/blob/master/LongestSubstringWithoutRepeatedCharacter/solution.py)
+
+
+### TAG
+
+- two pointer
+- hash map, alpha map
+- counter
+
+
+
+## 12. Longest Substring with At Most K Distinct Characters
+
+
+### Description
+Given a string s, find the length of the longest substring T that contains at most k distinct characters.
+
+### Example
+
+For example, Given s = "eceba", k = 3,
+
+T is "eceb" which its length is 4.
+
+#### Challenge 
+
+O(n), n is the size of the string s.
+
+### Solution
+
+- Use two pointers, where right is a running pointer and left is to the left of the start window, initialize as -1
+- Use a counter to count # of distinct character
+- Use a mapper to count the character freqency
+- Keep moving right pointer until it reaches to a violation. Here, right pointer is pointing to the first char that violdate, compute a valid window as (right-1-left)
+- While loop to move left pointer, each round to increment pointer, decrease character freqency and check if variant is broken or not. If so, stop left window right there
+- Repeat step until right pointer reaches to the end of character
+- [code](https://github.com/childxr/lintleetcode/blob/master/LongestStringAtMostKDistinctChar/solution.py)
+
+
+```
+class Solution:
+    """
+    @param s: A string
+    @param k: An integer
+    @return: An integer
+    """
+    def lengthOfLongestSubstringKDistinct(self, s, k):
+        # write your code here
+        
+        if not s:
+            return 0
+        if len(s) < k:
+            return len(s)
+        
+        left, right = -1, 0
+        cnt = 0
+        ans = 0
+        mapper = [0 for i in xrange(256)]
+        while right < len(s):
+            ch = s[right]
+            mapper[ord(ch)] += 1
+            if mapper[ord(ch)] == 1:
+                cnt += 1
+            if cnt > k:
+                ans = max(ans, right-1-left)
+                while cnt > k:
+                    left += 1
+                    rm = s[left]
+                    mapper[ord(rm)] -= 1
+                    if mapper[ord(rm)] == 0:
+                        cnt -= 1
+            right += 1
+        
+        ans = max(ans, right-left-1)
+        return ans
+   ```
+
+### TAG
+
+- Two pointer
+- Map
+- 
 
