@@ -787,4 +787,74 @@ return 14.
 - BFS with a Priority Queue
 - Heap
 
+## 14. Merge K Sorted Interval Lists
+
+### Description
+
+Merge K sorted interval lists into one sorted interval list. You need to merge overlapping intervals too.
+
+### Example
+
+Given
+
+[
+
+  `[(1,3),(4,7),(6,8)]`,
+  
+  `[(1,2),(9,10)]`
+  
+]
+
+Return
+
+[(1,3),(4,8),(9,10)]
+
+
+### Solution
+
+- Define a method to check if two intervals are intercepted or not
+- Init an output array as []
+- Init a MinHeap with item (start, end)
+- PUT first element in list into heap
+- Repeat the following until all elements are put into heap
+	- move top elem from heap, check if a merge needed with last interval. Init last interval if it is None
+	- If a merge needed, update last interval
+	- get the next elem in list where the top element comes from, put it into heap
+- Output list
+
+
+### TAG
+
+- Merge Sort
+- Heap
+
+## 15. Merge K Sorted List
+
+### Description
+Merge k sorted linked lists and return it as one sorted list.
+
+Analyze and describe its complexity.
+
+### Example
+Given lists:
+
+[ 
+
+2->4->null,
+
+null,
+
+-1->null
+
+],
+
+return -1->2->4->null.
+
+### Solution
+
+- [code](https://github.com/childxr/lintleetcode/tree/master/MergeKSortedList)
+
+### TAG
+
+- Heap
 
