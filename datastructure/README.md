@@ -868,6 +868,59 @@ return 14.
 - Considering any bin height could contribute to the edge of other bins, we should start from the smallest bin height from the outter area. Smallest outter bin height could never trap water but it is likely help other bins in inner area to trap water if inner bin has smaller height
 - Starting from the smallest outter bin, do scanning through 4 directions. For those unvisited bins, compute if any water could be trapped. If so, add up the amount of water that is trapped. Mark this unvisited bin as visited, and put it into the min Heap.
 
+```
+class Cell {
+    int x;
+    int y;
+    int h;
+    public Cell(int x, int y, int h) {
+        this.x = x;
+        this.y = y;
+        this.h = h;
+    }
+}
+public class Solution {
+    /*
+     * @param heights: a matrix of integers
+     * @return: an integer
+     */
+    public int trapRainWater(int[][] heights) {
+        // write your code here
+        if(heights == null || heights.length == 0) return 0;
+        int res = 0;
+        int m = heights.length, n = heights[0].length;
+        boolean[][] visited = new boolean[m][n];
+        PriorityQueue<Cell> queue = new PriorityQueue<>((a, b) -> a.h - b.h);
+        for(int i = 0; i < m; i++) {
+            visited[i][0] = true;
+            visited[i][n - 1] = true;
+            queue.offer(new Cell(i, 0, heights[i][0]));
+            queue.offer(new Cell(i, n - 1, heights[i][n - 1]));
+        }
+        for(int i = 0; i < n; i++) {
+            visited[0][i] = true;
+            visited[m - 1][i] = true;
+            queue.offer(new Cell(0, i, heights[0][i]));
+            queue.offer(new Cell(m - 1, i, heights[m - 1][i]));
+        }
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        while(!queue.isEmpty()) {
+            Cell cur = queue.poll();
+            for(int i = 0; i < 4; i++) {
+                int nx = cur.x + dx[i];
+                int ny = cur.y + dy[i];
+                if(0 <= nx && nx < m && 0 <= ny && ny < n && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    res += Math.max(0, cur.h - heights[nx][ny]);
+                    queue.offer(new Cell(nx, ny, Math.max(cur.h, heights[nx][ny])));
+                }
+            }
+        }
+        return res;
+    }
+}
+```
 
 ### TAG
 
