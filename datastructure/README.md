@@ -564,6 +564,93 @@ MediumHeap
 - initialize a medium heap (**mh**)
 - for i in [0: k-1), add num[i] to mh
 - for i in [k-1, n), output medium, add i, remove i-k+1
+```
+class MedianHeap {
+    private PriorityQueue<Integer> secondHalf;
+    private PriorityQueue<Integer> firstHalf;
+    int count;
+    
+    public MedianHeap() {
+        secondHalf = new PriorityQueue<>((a, b) -> a - b);
+        firstHalf = new PriorityQueue<>((a, b) -> b - a);
+        count = 0;
+    }
+    
+    public int getMedian() {
+        if(count == 0) return 0;
+        else if(count % 2 == 0) {
+            return firstHalf.peek();
+        } else {
+            return secondHalf.size() > firstHalf.size() ? secondHalf.peek() : firstHalf.peek();
+        }
+    }
+    
+    public void add(int num) {
+        if(firstHalf.size() == 0 && secondHalf.size() == 0) secondHalf.offer(num);
+        else if(firstHalf.size() > secondHalf.size()) {
+            if(num < firstHalf.peek()) {
+                secondHalf.offer(firstHalf.poll());
+                firstHalf.offer(num);
+            } else {
+                secondHalf.offer(num);
+            }
+        } else if (firstHalf.size() < secondHalf.size()) {
+            if(num > secondHalf.peek()) {
+                firstHalf.offer(secondHalf.poll());
+                secondHalf.offer(num);
+            } else {
+                firstHalf.offer(num);
+            }
+        } else {
+            if(num >= secondHalf.peek()) secondHalf.offer(num);
+            else firstHalf.offer(num);
+        }
+        count += 1;
+    }
+    
+    public void remove(int num) {
+        boolean removed = false;
+        if(firstHalf.size() == 0 && secondHalf.size() == 0) {
+            return;
+        } else if(firstHalf.size() == 0 || num >= secondHalf.peek()) {
+            removed = secondHalf.remove(num);
+        } else if(secondHalf.size() == 0 || num <= firstHalf.peek()) {
+            removed = firstHalf.remove(num);
+        }
+        if(firstHalf.size() > secondHalf.size()) {
+            secondHalf.offer(firstHalf.poll());
+        } else if(firstHalf.size() < secondHalf.size()) {
+            firstHalf.offer(secondHalf.poll());
+        }
+        /*System.out.println("---");
+        System.out.println(firstHalf.peek());
+        System.out.println(secondHalf.peek());*/
+        if (removed) count -= 1;
+    }
+}
+public class Solution {
+    /*
+     * @param nums: A list of integers
+     * @param k: An integer
+     * @return: The median of the element inside the window at each moving
+     */
+    public List<Integer> medianSlidingWindow(int[] nums, int k) {
+        // write your code here
+        List<Integer> ret = new ArrayList<>();
+        if(nums == null || nums.length == 0) return ret;
+        MedianHeap mh = new MedianHeap();
+        for(int i = 0; i < k - 1; i++) {
+            mh.add(nums[i]);
+        }
+        for(int i = k - 1; i < nums.length; i++) {
+            mh.add(nums[i]);
+            ret.add(mh.getMedian());
+            mh.remove(nums[i - k + 1]);
+        }
+        return ret;
+    }
+}
+```
 
 ```
 import heapq
